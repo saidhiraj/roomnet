@@ -6,10 +6,10 @@ import cv2
 import scipy.io as sio
 import scipy.misc as smc
 
-im_path='/home/mcg/Data/LSUN/data/images'
-mat='/home/mcg/Data/LSUN/data/training.mat'
+im_path='/home/abudhraj/roomnet_data/data/images'
+mat='/home/abudhraj/roomnet_data/data/training.mat'
 #test_mat='/home/mcg/Data/LSUN/data/validation.mat'
-outpath='/home/mcg/Data/LSUN/data/training_data'
+outpath='/home/abudhraj/roomnet_data/data/training_data'
 #outpath='/home/mcg/Data/LSUN/data/validation_data'
 s=320
 out_s=40
