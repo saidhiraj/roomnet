@@ -118,7 +118,7 @@ def test(args):
       net=RcnnNet()
     net.build_model()
   start_step=net.restore_model(sess, model_dir)
-  print 'restored'
+  print ('restored')
   fout=open(os.path.join(outdir, 'acc.txt'), 'w')
   start_time=time.time()
   fetchworker=BatchFetcher(val_datadir,False, False)
