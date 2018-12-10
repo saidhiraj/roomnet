@@ -49,7 +49,7 @@ def train(args):
   sess.run(tf.local_variables_initializer())
 
   if args.train==0:
-    print 'train from scratch'
+    print ('train from scratch')
     start_step=0
     # start_epoch=0
   else:
@@ -82,7 +82,7 @@ def train(args):
         c_out=np.argmax(pred_class, axis=1)
         c_gt=np.argmax(label_gt, axis=1)
         acc=np.mean(np.array(np.equal(c_out, c_gt), np.float32)) 
-        print 'accuracy',acc
+        print ('accuracy',acc0)
         fout.write('%s %s\n'%(i, acc))
       if np.mod(global_step, 500)==0:
         net.save_model(sess, model_dir, global_step)
@@ -124,7 +124,7 @@ def test(args):
   fetchworker=BatchFetcher(val_datadir,False, False)
   fetchworker.start()
   total_step=fetchworker.get_max_step()
-  print 'total steps', total_step
+  print ('total steps', total_step)
   for i in range(total_step):
     im_in,lay_gt, label_gt,names=fetchworker.fetch()
     net.set_feed(im_in, lay_gt, label_gt,i)
@@ -132,6 +132,7 @@ def test(args):
     c_out=np.argmax(pred_class, axis=1)
     c_gt=np.argmax(label_gt, axis=1)
     acc=np.mean(np.array(np.equal(c_out, c_gt), np.float32))
+    print('accuracy',acc)
     fout.write('%s %s\n'%(i, acc))
     for j in range(batch_size):
       img = im_in[j]

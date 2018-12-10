@@ -45,7 +45,7 @@ for item in data:
 #  if j==5:
 #    break 
   if j%100==0:
-    print j
+    print (j)
   name=item[0][0]
   ltype=item[2][0][0]
   pts=item[3]

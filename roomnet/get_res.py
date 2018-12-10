@@ -92,7 +92,7 @@ for i in range(20):
     img=im[i]
     class_label=np.argmax(gt_label[i])
     label2=np.argmax(pred_class[i])
-    print class_label, label2
+    print (class_label, label2)
     # print i,'pred'
     outim= get_im(img, pred_lay[i], label2, str(i))
     outim2=get_im(img, gt_lay[i], class_label, str(i))  
