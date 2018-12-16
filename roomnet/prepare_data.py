@@ -1,15 +1,16 @@
+# cook your dish here
 import os
 import numpy as np
 import zlib
-import cPickle as pickle
+#import cPickle as pickle
 import cv2
 import scipy.io as sio
 import scipy.misc as smc
 
-im_path='/home/abudhraj/roomnet_data/data/images'
-mat='/home/abudhraj/roomnet_data/data/training.mat'
+im_path='/content/images'
+mat='/content/training.mat'
 #test_mat='/home/mcg/Data/LSUN/data/validation.mat'
-outpath='/home/abudhraj/roomnet_data/data/training_data'
+outpath='/content/training_data'
 #outpath='/home/mcg/Data/LSUN/data/validation_data'
 s=320
 out_s=40
@@ -37,7 +38,7 @@ def guassian_2d(x_mean, y_mean, dev=5.0):
   return z
 
 data=sio.loadmat(mat)
-#data=data['validation'][0]
+#data=data['training'][0]
 data=data['training'][0]
 j=0
 for item in data:

@@ -9,15 +9,15 @@ import shutil
 import time
 import argparse
 from get_res import get_im
-batch_size=20
+batch_size=5
 s_in=320
 s_out=40
-max_epoch=225
+max_epoch=50
 l_list=[0,8,14,20,24,28,34,38,42,44,46, 48]
 
-datapath='/home/abudhraj/roomnet_data/data'
-datadir='/home/abudhraj/roomnet_data/data/training'
-val_datadir='/home/abudhraj/roomnet_data/data/validation'
+datapath='/content/'
+datadir='/content/training_data'
+val_datadir='/content/validation_data'
 
     
 def train(args):
@@ -47,7 +47,6 @@ def train(args):
     net.build_model()
   sess.run(tf.global_variables_initializer())
   sess.run(tf.local_variables_initializer())
-
   if args.train==0:
     print ('train from scratch')
     start_step=0
@@ -65,7 +64,8 @@ def train(args):
   fout=open(os.path.join(outpath, 'acc.txt'), 'a')
   if 1:
   #for epo in range(start_epoch,max_epoch+1):
-    for i in range(start_step, 225*step_per_epoch):
+    print('total training steps',max_epoch*step_per_epoch+1)
+    for i in range(start_step, max_epoch*step_per_epoch+1):
       im_in,lay_gt, label_gt,names=fetchworker.fetch()
       net.set_feed(im_in, lay_gt, label_gt,i)
       net.run_optim(sess)
@@ -82,11 +82,11 @@ def train(args):
         c_out=np.argmax(pred_class, axis=1)
         c_gt=np.argmax(label_gt, axis=1)
         acc=np.mean(np.array(np.equal(c_out, c_gt), np.float32)) 
-        print ('accuracy',acc0)
+        print ('accuracy',acc)
         fout.write('%s %s\n'%(i, acc))
-      if np.mod(global_step, 500)==0:
+      if np.mod(global_step, 100)==0:
         net.save_model(sess, model_dir, global_step)
-      if np.mod(global_step,500)==0:
+      if np.mod(global_step,100)==0:
         im_in,lay_gt, label_gt,names=fetchworker2.fetch()
         net.set_feed(im_in, lay_gt, label_gt,i)
         pred_class, pred_lay=net.run_result(sess)
@@ -124,7 +124,7 @@ def test(args):
   fetchworker=BatchFetcher(val_datadir,False, False)
   fetchworker.start()
   total_step=fetchworker.get_max_step()
-  print ('total steps', total_step)
+  print ('total steps testing', total_step)
   for i in range(total_step):
     im_in,lay_gt, label_gt,names=fetchworker.fetch()
     net.set_feed(im_in, lay_gt, label_gt,i)
@@ -136,9 +136,11 @@ def test(args):
     fout.write('%s %s\n'%(i, acc))
     for j in range(batch_size):
       img = im_in[j]
+      class_label=c_gt[j]
+      label2=c_out[j]
       # print class_label, label2
-      outim = get_im(img, pred_lay[j], c_out, str(j))
-      outim2 = get_im(img, lay_gt[j], c_gt, str(j))
+      outim = get_im(img, pred_lay[j], c_out[j], str(j))
+      outim2 = get_im(img, lay_gt[j], c_gt[j], str(j))
       outpath=os.path.join(outdir, str(i))
       if not os.path.exists(outpath):
         os.makedirs(outpath)

@@ -2,17 +2,17 @@ import numpy as np
 import cv2
 import os
 
-out=np.load('rcnn/test/2.npz')
-im=out['im']
-gt_lay=out['gt_lay']
-gt_label=out['gt_label']
-names=out['names']
-pred_lay=out['pred_lay']
-pred_class=out['pred_class']
+#out=np.load('rcnn/test/2.npz')
+#im=out['im']
+#gt_lay=out['gt_lay']
+#gt_label=out['gt_label']
+#names=out['names']
+#pred_lay=out['pred_lay']
+#pred_class=out['pred_class']
 # outpath='lr5_4_noban_38000'
-outpath='rcnn/test/02'
-if not os.path.exists(outpath):
-    os.makedirs(outpath)
+#outpath='../input/rcnn/test/02'
+#if not os.path.exists(outpath):
+#    os.makedirs(outpath)
 l_list=[0,8,14,20,24,28,34,38,42,44,46,48]
 colors=np.array([[255,0,0],[0,0,255],[0,255,0],[255,255,0],[255,0,255], [0,255,255],[139,126,102], [118,238,198]])
 
@@ -87,18 +87,18 @@ def get_im(ims, layout,label,j):
     res=cv2.addWeighted(ims, 0.5, outim, 0.5, 0) 
 
     return res
-
-for i in range(20):
-    img=im[i]
-    class_label=np.argmax(gt_label[i])
-    label2=np.argmax(pred_class[i])
-    print (class_label, label2)
-    # print i,'pred'
-    outim= get_im(img, pred_lay[i], label2, str(i))
-    outim2=get_im(img, gt_lay[i], class_label, str(i))  
-    cv2.imwrite(os.path.join(outpath, '%s_gt_%s.jpg'%(i, class_label)), outim2)
-    cv2.imwrite(os.path.join(outpath, '%s_pred_%s.jpg'%(i, label2)), outim)
-    cv2.imwrite(os.path.join(outpath, '%s.jpg'%(i)), img*255)
+    
+#for i in range(20):
+    #img=im[i]
+    #class_label=np.argmax(gt_label[i])
+    #label2=np.argmax(pred_class[i])
+    #print (class_label, label2)
+   # print i,'pred'
+  #  outim= get_im(img, pred_lay[i], label2, str(i))
+ #   outim2=get_im(img, gt_lay[i], class_label, str(i))  
+#    cv2.imwrite(os.path.join(outpath, '%s_gt_%s.jpg'%(i, class_label)), outim2)
+ #   cv2.imwrite(os.path.join(outpath, '%s_pred_%s.jpg'%(i, label2)), outim)
+  #  cv2.imwrite(os.path.join(outpath, '%s.jpg'%(i)), img*255)
 
 
 

@@ -1,3 +1,5 @@
+# cook your dish here
+# cook your dish here
 import sys
 import numpy as np
 import cv2
@@ -7,10 +9,10 @@ import os
 import time
 import socket
 import threading
-import Queue
+import queue
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import scipy.io
-import helper
+#import helper
 import scipy.io as sio
 import scipy.misc as smc
 BATCH_SIZE=20
@@ -21,17 +23,17 @@ max_epoch=225
 # 0:499, 1:137, 2:2, 3:17, 4:744, 5:1352, 6:54, 7:2, 8:1, 9:160, 10:32
 #balance_list=[1, 3, 200, 20, 1, 1, 8, 200, 200, 3, 15]
 balance_list=[1,1,1,1,1,1,1,1,1,1,1,1]
-train_mat='/home/abudhraj/roomnet_data/data/training.mat'
-val_mat='/home/abudhraj/roomnet_data/data/validation.mat'
+train_mat='/content/training.mat'
+val_mat='/content/validation.mat'
 
 class BatchFetcher(threading.Thread):
   def __init__(self, datapath,istrain, repeat):
     super(BatchFetcher, self).__init__()
-#    self.queue=Queue.Queue(40)
+#    self.queue=queue.Queue(40)
     if istrain:
-      self.queue=Queue.Queue(16)
+      self.queue=queue.Queue(16)
     else:
-      self.queue=Queue.Queue(2)
+      self.queue=queue.Queue(2)
     self.batch_size=BATCH_SIZE
     self.stopped=False
     self.datadir=datapath
@@ -116,7 +118,7 @@ class BatchFetcher(threading.Thread):
     while not self.queue.empty():
       self.queue.get()
 if __name__=='__main__':
-  datadir='/home/abudhraj/roomnet_data/data/training_data'
+  datadir='/content/training_data'
   fetchworker=BatchFetcher(datadir, True)
   fetchworker.start()
 #  time.sleep(10)
