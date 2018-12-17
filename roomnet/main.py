@@ -98,10 +98,10 @@ def train(args):
          strg=str(global_step)
         fl=['model'+strg+'-'+strg+'.data-00000-of-00001',''model'+strg+'-'+strg+'.meta','model'+strg+'-'+strg+'.index']
         for i in range(3):
-            uploaded = drive.CreateFile({'title':fl(i)})
-            uploaded.SetContentFile('/content/path-to-output-train/model/'+fl(i))
+            uploaded = drive.CreateFile({'title':fl[i]})
+            uploaded.SetContentFile('/content/path-to-output-train/model/'+fl[i])
             uploaded.Upload()
-            print('Uploaded file :{}'.format(fl(i)))
+            print('Uploaded file :{}'.format(fl[i]))
       print('[step: %d] [time: %s]'%(i, time.time()-start_time))
       net.print_loss_acc(sess)
   fetchworker.shutdown()
