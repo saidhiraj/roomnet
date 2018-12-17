@@ -9,6 +9,14 @@ import shutil
 import time
 import argparse
 from get_res import get_im
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+from google.colab import auth
+from oauth2client.client import GoogleCredentials
+auth.authenticate_user()
+gauth = GoogleAuth()
+gauth.credentials = GoogleCredentials.get_application_default()
+drive = GoogleDrive(gauth)
 batch_size=5
 s_in=320
 s_out=40
