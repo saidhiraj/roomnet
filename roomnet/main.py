@@ -94,7 +94,7 @@ def train(args):
 #          save_results(im_in, lay_gt, label_gt, names, pred_lay, pred_class, sample_dir, global_step)
 #        except:
         np.savez(os.path.join(sample_dir, '%s.npz'%(i)), im=im_in, gt_lay=lay_gt, gt_label=label_gt, names=names, pred_lay=pred_lay, pred_class=pred_class)
-      if np.mod(global_step,1000)==0:
+      if np.mod(global_step,100)==0:
         strg=str(global_step)
         fl=['model'+strg+'-'+strg+'.data-00000-of-00001','model'+strg+'-'+strg+'.meta','model'+strg+'-'+strg+'.index']
         for i in range(3):
