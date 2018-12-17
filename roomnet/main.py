@@ -101,7 +101,7 @@ def train(args):
             uploaded = drive.CreateFile({'title':fl(i)})
             uploaded.SetContentFile('/content/path-to-output-train/model/'+fl(i))
             uploaded.Upload()
-            print('Uploaded file :{}'.format(uploaded.get('id')))
+            print('Uploaded file :{}'.format(fl(i)))
       print('[step: %d] [time: %s]'%(i, time.time()-start_time))
       net.print_loss_acc(sess)
   fetchworker.shutdown()
