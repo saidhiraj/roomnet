@@ -95,7 +95,7 @@ def train(args):
 #        except:
         np.savez(os.path.join(sample_dir, '%s.npz'%(i)), im=im_in, gt_lay=lay_gt, gt_label=label_gt, names=names, pred_lay=pred_lay, pred_class=pred_class)
       if np.mod(global_step,1000)==0:
-         strg=str(global_step)
+        strg=str(global_step)
         fl=['model'+strg+'-'+strg+'.data-00000-of-00001',''model'+strg+'-'+strg+'.meta','model'+strg+'-'+strg+'.index']
         for i in range(3):
             uploaded = drive.CreateFile({'title':fl[i]})
