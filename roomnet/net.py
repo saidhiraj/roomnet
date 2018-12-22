@@ -35,8 +35,8 @@ class RoomnetVanilla(object):
   def build_network(self):
     bn_decay=self.bn_decay
     training =self.is_training
-    inp=tf.keras.Input(
-    name='input', shape=(self.s_in,self.s_in,3), batch_size=self.batch_size, dtype=tf.float32)
+    #inp=tf.keras.Input(
+    #name='input', shape=(self.s_in,self.s_in,3), batch_size=self.batch_size, dtype=tf.float32)
     x0=self.im_in#(320,320,3)
     x1_1=conv2d_bn_relu(x0, 64, 3,3,1,1,'x1_1', bn_decay, training)#(320,320,64)
     x1_2=conv2d_bn_relu(x1_1, 64, 3,3,1,1,'x1_2', bn_decay, training)
