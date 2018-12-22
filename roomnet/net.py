@@ -260,41 +260,74 @@ class RcnnNet(RoomnetVanilla):
     x8_2=conv2d_bn_relu(x8_1, 64, 1,1,1,1,'x8_2', bn_decay, training)#(40,40,64)
     x8_3=conv2d_bn_relu(x8_2, 48, 1,1,1,1,'x8_3', bn_decay, training)#(40,40,48)
     x8_4=tf.nn.sigmoid(x8_3)
-    self.out_layout_x=x8_4
+    modelx8_4=tf.keras.Model(inputs=[x0], outputs=[x8_4])
+    self.out_layout_x=tf.contrib.tpu.keras_to_tpu_model(
+    modelx8_4,
+    strategy=tf.contrib.tpu.TPUDistributionStrategy(
+        tf.contrib.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+    )
+)
 
     #get class label
     x_y0=tf.contrib.layers.flatten(x5_4)
     x_y1=linear(x_y0, 1024, 'y1')
     x_y2=linear(x_y1, 512, 'y2')
     x_y3=linear(x_y2, 11, 'y3')
-    self.out_label_x=x_y3
+    modelx_y3=tf.keras.Model(inputs=[x0], outputs=[x_y3])
+    self.out_label_x=tf.contrib.tpu.keras_to_tpu_model(
+    modelx_y3,
+    strategy=tf.contrib.tpu.TPUDistributionStrategy(
+        tf.contrib.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+    )
+)
+    
 
     y8_1=conv2d_bn_relu(y7_4, 256, 1,1,1,1,'x8_1', bn_decay, training, reuse=True)#(40,40,256)
     y8_2=conv2d_bn_relu(y8_1, 64, 1,1,1,1,'x8_2', bn_decay, training, reuse=True)#(40,40,64)
     y8_3=conv2d_bn_relu(y8_2, 48, 1,1,1,1,'x8_3', bn_decay, training, reuse=True)#(40,40,48)
     y8_4=tf.nn.sigmoid(y8_3)
-    self.out_layout_y=y8_4
-
+    modely8_4=tf.keras.Model(inputs=[x0], outputs=[y8_4])
+    self.out_layout_y=tf.contrib.tpu.keras_to_tpu_model(
+    modely8_4,
+    strategy=tf.contrib.tpu.TPUDistributionStrategy(
+        tf.contrib.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+    )
+)
     #get class label
     y_y0=tf.contrib.layers.flatten(y5_4)
     y_y1=linear(y_y0, 1024, 'y1', reuse=True)
     y_y2=linear(y_y1, 512, 'y2', reuse=True)
     y_y3=linear(y_y2, 11, 'y3', reuse=True)
-    self.out_label_y=y_y3
-
+    modely_y3=tf.keras.Model(inputs=[x0], outputs=[y_y3])
+    self.out_label_y=tf.contrib.tpu.keras_to_tpu_model(
+    modely_y3,
+    strategy=tf.contrib.tpu.TPUDistributionStrategy(
+        tf.contrib.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+    )
+)
     z8_1=conv2d_bn_relu(z7_4, 256, 1,1,1,1,'x8_1', bn_decay, training, reuse=True)#(40,40,256)
     z8_2=conv2d_bn_relu(z8_1, 64, 1,1,1,1,'x8_2', bn_decay, training, reuse=True)#(40,40,64)
     z8_3=conv2d_bn_relu(z8_2, 48, 1,1,1,1,'x8_3', bn_decay, training, reuse=True)#(40,40,48)
     z8_4=tf.nn.sigmoid(z8_3)
-    self.out_layout=z8_4
-
+    modelz8_4=tf.keras.Model(inputs=[x0], outputs=[z8_4])
+    self.out_layout=tf.contrib.tpu.keras_to_tpu_model(
+    modelz8_4,
+    strategy=tf.contrib.tpu.TPUDistributionStrategy(
+        tf.contrib.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+    )
+)
     #get class label
     z_y0=tf.contrib.layers.flatten(z5_4)
     z_y1=linear(z_y0, 1024, 'y1', reuse=True)
     z_y2=linear(z_y1, 512, 'y2', reuse=True)
     z_y3=linear(z_y2, 11, 'y3', reuse=True)
-    self.out_label=z_y3
-
+    modelz_y3=tf.keras.Model(inputs=[x0], outputs=[z_y3])
+    self.out_label=tf.contrib.tpu.keras_to_tpu_model(
+    modelz_y3,
+    strategy=tf.contrib.tpu.TPUDistributionStrategy(
+        tf.contrib.cluster_resolver.TPUClusterResolver(tpu='grpc://' + os.environ['COLAB_TPU_ADDR'])
+    )
+)
   def set_loss(self):
     self.weight_loss=tf.add_n(tf.get_collection('w_losses'), name='w_loss')
     self.class_loss=cross_entroy_loss(self.out_label, self.gt_label)
