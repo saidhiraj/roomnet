@@ -17,10 +17,10 @@ auth.authenticate_user()
 gauth = GoogleAuth()
 gauth.credentials = GoogleCredentials.get_application_default()
 drive = GoogleDrive(gauth)
-batch_size=20
+batch_size=128
 s_in=320
 s_out=40
-max_epoch=50
+max_epoch=225
 l_list=[0,8,14,20,24,28,34,38,42,44,46, 48]
 
 datapath='/content/'
