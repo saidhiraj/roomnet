@@ -17,7 +17,7 @@ auth.authenticate_user()
 gauth = GoogleAuth()
 gauth.credentials = GoogleCredentials.get_application_default()
 drive = GoogleDrive(gauth)
-batch_size=128
+batch_size=25
 s_in=320
 s_out=40
 max_epoch=225
