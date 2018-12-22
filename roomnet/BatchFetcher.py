@@ -15,7 +15,7 @@ import scipy.io
 #import helper
 import scipy.io as sio
 import scipy.misc as smc
-BATCH_SIZE=128
+BATCH_SIZE=20
 s_in=320
 s_out=40
 n_type=11
