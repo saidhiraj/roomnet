@@ -93,7 +93,7 @@ def train(args):
         print ('accuracy',acc)
         fout.write('%s %s\n'%(i, acc))
       if np.mod(global_step, 100)==0:
-        net.save_model(sess, model_dir, global_step)
+        net.save_model(sess, model_dir, global_step)  
       if np.mod(global_step,100)==0:
         im_in,lay_gt, label_gt,names=fetchworker2.fetch()
         net.set_feed(im_in, lay_gt, label_gt,i)
@@ -103,6 +103,10 @@ def train(args):
 #        except:
         np.savez(os.path.join(sample_dir, '%s.npz'%(i)), im=im_in, gt_lay=lay_gt, gt_label=label_gt, names=names, pred_lay=pred_lay, pred_class=pred_class)
       if np.mod(global_step,1000)==0:
+        auth.authenticate_user()
+        gauth = GoogleAuth()
+        gauth.credentials = GoogleCredentials.get_application_default()
+        drive = GoogleDrive(gauth)
         strg=str(global_step)
         fl=['model'+strg+'-'+strg+'.data-00000-of-00001','model'+strg+'-'+strg+'.meta','model'+strg+'-'+strg+'.index']
         for i in range(3):
